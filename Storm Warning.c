@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Test
+// Test 2
 
 typedef struct Boat Boat;
 typedef struct ArrayList ArrayList;
