@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-// Test 4
+#define NAME_LEN 20
 
 typedef struct Boat Boat;
 typedef struct ArrayList ArrayList;
@@ -36,7 +37,49 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
 
 // The main function
 int main() {
+    // gather width and height from user
+    int width;
+    int height;
+
+    scanf("%d", &width);
+    scanf("%d", &height);
     
+    // Initialize array of array list
+    struct ArrayList ** lists = (struct ArrayList **)malloc(width * sizeof(struct ArrayList *));
+    
+    for(int i = 0; i < width; ++i) {
+        lists[i] = (struct ArrayList *)malloc(height * sizeof(struct ArrayList));
+    }
+
+    // Initialize time
+    int currTime = 0;
+    int newTime;
+    int currCommand;
+
+    scanf("%d", &currCommand);
+
+    while(currCommand != 4) {
+        switch (currCommand) {
+            case 1:
+                // ADD command
+                break;
+            case 2:
+                // TIME command
+                break;
+            case 3:
+                // STORM command
+                break;
+            case 4:
+                // Exit
+                break;
+            default:
+                printf("Something went wrong, pick a valid command\n");
+        }
+
+        scanf("%d", &currCommand);
+    }
+
+    free(lists);
 
     return 0;
 }
@@ -63,29 +106,30 @@ int main() {
     // Initialize the current time
     // Read the first command
     // Loop until the exit command is given
+    // TODO: left off here
         // Determine the command type
             // ADD COMMAND
-            // Create a static boat
-            // Read in the boat values (be careful with the direction)
-            // Convert the x and y to zero indexed values
-            // Initialize the delta x and y based on the direction
-            // Initialize the time the boat arrived
-            // Check if boat is Left/Right VS Up/Down
-                // Add boat to the x’s
-            // Else
-                // Add boat to the y’s
+                // Create a static boat
+                // Read in the boat values (be careful with the direction)
+                // Convert the x and y to zero indexed values
+                // Initialize the delta x and y based on the direction
+                // Initialize the time the boat arrived
+                // Check if boat is Left/Right VS Up/Down
+                    // Add boat to the x’s
+                // Else
+                    // Add boat to the y’s
             // TIME COMMAND
                 // Update the current time
             // STORM COMMAND
-            // Read in the storm information
-            // Convert the x and y to zero indexed values
-            // Loop through and determine how many ships will be affected
-                // Update total by querying this particular row list
-                // Update total by querying this particular column list
-            // Print the total number of affected ships
-            // Loop through and print affected ships
-                // Print the by querying this particular row list
-                // Print the by querying this particular column list
+                // Read in the storm information
+                // Convert the x and y to zero indexed values
+                // Loop through and determine how many ships will be affected
+                    // Update total by querying this particular row list
+                    // Update total by querying this particular column list
+                // Print the total number of affected ships
+                // Loop through and print affected ships
+                    // Print the by querying this particular row list
+                    // Print the by querying this particular column list
         // Read in the next command
     // Clean up memory
     // Exit successfully
