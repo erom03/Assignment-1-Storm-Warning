@@ -59,22 +59,23 @@ int main() {
     scanf("%d", &currCommand);
 
     while(currCommand != 4) {
-        switch (currCommand) {
-            case 1:
-                // ADD command
-                break;
-            case 2:
-                // TIME command
-                break;
-            case 3:
-                // STORM command
-                break;
-            case 4:
-                // Exit
-                break;
-            default:
-                printf("Something went wrong, pick a valid command\n");
+        // I tried using a switch here but it didn't like me
+        // declaring a new struct in it so if statements it is
+
+        //ADD COMMAND
+        if(currCommand == 1) {
+            struct Boat newBoat;
         }
+
+        // TIME COMMAND
+        if(currCommand == 2) {
+            
+        }
+
+        // STORM COMMAND
+        if(currCommand == 3) {
+            
+        }        
 
         scanf("%d", &currCommand);
     }
@@ -106,18 +107,18 @@ int main() {
     // Initialize the current time
     // Read the first command
     // Loop until the exit command is given
-    // TODO: left off here
         // Determine the command type
             // ADD COMMAND
                 // Create a static boat
+                // TODO: left off here
                 // Read in the boat values (be careful with the direction)
                 // Convert the x and y to zero indexed values
                 // Initialize the delta x and y based on the direction
                 // Initialize the time the boat arrived
                 // Check if boat is Left/Right VS Up/Down
-                    // Add boat to the x’s
+                    // Add boat to the x’s (use append function)
                 // Else
-                    // Add boat to the y’s
+                    // Add boat to the y’s (use append function)
             // TIME COMMAND
                 // Update the current time
             // STORM COMMAND
