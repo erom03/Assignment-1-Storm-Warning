@@ -45,10 +45,10 @@ int main() {
     scanf("%d", &height);
     
     // Initialize array of array list
-    struct ArrayList ** lists = (struct ArrayList **)malloc(width * sizeof(struct ArrayList *));
+    struct ArrayList ** list = (struct ArrayList **)malloc(width * sizeof(struct ArrayList *));
     
     for(int i = 0; i < width; ++i) {
-        lists[i] = (struct ArrayList *)malloc(height * sizeof(struct ArrayList));
+        list[i] = (struct ArrayList *)malloc(height * sizeof(struct ArrayList));
     }
 
     // Initialize time
@@ -74,13 +74,13 @@ int main() {
 
         // STORM COMMAND
         if(currCommand == 3) {
-            
+
         }        
 
         scanf("%d", &currCommand);
     }
 
-    free(lists);
+    free(list);
 
     return 0;
 }
