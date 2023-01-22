@@ -12,8 +12,8 @@ struct Boat {
 };
 
 struct ArrayList {
-    struct Cage * cages;
-    int numCages;
+    struct Boat * array;
+    int size, capacity;
 };
 
 // Given a point to a list initialize the list
@@ -45,11 +45,8 @@ int main() {
     scanf("%d", &height);
     
     // Initialize array of array list
-    struct ArrayList ** list = (struct ArrayList **)malloc(width * sizeof(struct ArrayList *));
-    
-    for(int i = 0; i < width; ++i) {
-        list[i] = (struct ArrayList *)malloc(height * sizeof(struct ArrayList));
-    }
+    struct ArrayList ** columns = (struct ArrayList **)malloc(width * sizeof(struct ArrayList *));
+    struct ArrayList ** rows = (struct ArrayList **)malloc(height * sizeof(struct ArrayList *));
 
     // Initialize time
     int currTime = 0;
@@ -80,7 +77,7 @@ int main() {
         scanf("%d", &currCommand);
     }
 
-    free(list);
+    free(columns);
 
     return 0;
 }
