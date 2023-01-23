@@ -62,11 +62,52 @@ int main() {
         //ADD COMMAND
         if(currCommand == 1) {
             struct Boat newBoat;
+            char direction;
+
+            scanf("%d", &newBoat.start_x);
+            scanf("%d", &newBoat.start_y);
+            scanf("%c", &direction);
+            scanf("%c", newBoat.name);
+
+            newBoat.start_x -= 1;
+            newBoat.start_y -= 1;
+
+            newBoat.start_time = currTime;
+
+            switch (direction) {
+                case 'L':
+                    newBoat.delta_x = -1;
+                    newBoat.delta_y = 0;
+
+                    appendToList(*rows, newBoat);
+                    break;
+                case 'R':
+                    newBoat.delta_x = 1;
+                    newBoat.delta_y = 0;
+
+                    appendToList(*rows, newBoat);
+                    break;
+                case 'D':
+                    newBoat.delta_x = 0;
+                    newBoat.delta_y = -1;
+
+                    appendToList(*columns, newBoat);
+                    break;
+                case 'U':
+                    newBoat.delta_x = 0;
+                    newBoat.delta_y = 1;
+
+                    appendToList(*columns, newBoat);
+                    break;
+            }
         }
 
         // TIME COMMAND
         if(currCommand == 2) {
+            int addTime;
             
+            scanf("%d", &addTime);
+            currTime += addTime;
         }
 
         // STORM COMMAND
@@ -80,6 +121,14 @@ int main() {
     free(columns);
 
     return 0;
+}
+
+void appendToList(ArrayList * list, Boat newBoat) {
+
+}
+
+int query(int x, int y, int storm_width, int storm_height, int world_width, int world_height, ArrayList * list, int cur_time, int should_print) {
+
 }
 
 // appendToList() comments
