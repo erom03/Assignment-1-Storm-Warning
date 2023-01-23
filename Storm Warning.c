@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #define NAME_LEN 20
+#define DEFAULT_CAPACITY 5
 
 typedef struct Boat Boat;
 typedef struct ArrayList ArrayList;
@@ -12,12 +13,12 @@ struct Boat {
 };
 
 struct ArrayList {
-    struct Boat * array;
+    Boat * array;
     int size, capacity;
 };
 
 // Given a point to a list initialize the list
-void initArrayList(ArrayList * list);
+ArrayList * initArrayList();
 
 // Given a list and a boat tot add to it, add the boat to the end
 // of the list
@@ -35,6 +36,8 @@ void appendToList(ArrayList * list, Boat newBoat);
 // Print the names of the boats if the should_print flag is non-zero
 int query(int x, int y, int storm_width, int storm_height, int world_width, int world_height, ArrayList * list, int cur_time, int should_print);
 
+void freeMemory(ArrayList * list);
+
 // The main function
 int main() {
     // gather width and height from user
@@ -45,8 +48,8 @@ int main() {
     scanf("%d", &height);
     
     // Initialize array of array list
-    struct ArrayList ** columns = (struct ArrayList **)malloc(width * sizeof(struct ArrayList *));
-    struct ArrayList ** rows = (struct ArrayList **)malloc(height * sizeof(struct ArrayList *));
+    ArrayList * columns = initArrayList();
+    ArrayList * rows = initArrayList();
 
     // Initialize time
     int currTime = 0;
@@ -61,7 +64,7 @@ int main() {
 
         //ADD COMMAND
         if(currCommand == 1) {
-            struct Boat newBoat;
+            Boat newBoat;
             char direction;
 
             scanf("%d", &newBoat.start_x);
@@ -79,25 +82,25 @@ int main() {
                     newBoat.delta_x = -1;
                     newBoat.delta_y = 0;
 
-                    appendToList(*rows, newBoat);
+                    appendToList(rows, newBoat);
                     break;
                 case 'R':
                     newBoat.delta_x = 1;
                     newBoat.delta_y = 0;
 
-                    appendToList(*rows, newBoat);
+                    appendToList(rows, newBoat);
                     break;
                 case 'D':
                     newBoat.delta_x = 0;
                     newBoat.delta_y = -1;
 
-                    appendToList(*columns, newBoat);
+                    appendToList(columns, newBoat);
                     break;
                 case 'U':
                     newBoat.delta_x = 0;
                     newBoat.delta_y = 1;
 
-                    appendToList(*columns, newBoat);
+                    appendToList(columns, newBoat);
                     break;
             }
         }
@@ -124,19 +127,38 @@ int main() {
     return 0;
 }
 
-void appendToList(ArrayList * list, Boat newBoat) {
+ArrayList * initArrayList() {
+    ArrayList * list = (ArrayList *)malloc(sizeof(ArrayList));
+    
+    list->size = 0;
+    list->capacity = DEFAULT_CAPACITY;
+    list->array = (Boat *)malloc(sizeof(Boat) * list->capacity);
 
+    return list;
+}
+
+void appendToList(ArrayList * list, Boat newBoat) {
+    // Check if list should be expanded
+    if(list->size == list->capacity) {
+        list->capacity *= 2;
+        list->array = realloc(list->array, list->capacity * sizeof(Boat));
+    }
+
+    // Add value to end
+    list->array[list->size] = newBoat;
+    list->size++;
 }
 
 int query(int x, int y, int storm_width, int storm_height, int world_width, int world_height, ArrayList * list, int cur_time, int should_print) {
+    int affectedShips = 0;
 
+    return affectedShips;
 }
 
-// appendToList() comments
-    // Check if the list is full
-        // Expand the list
-    // Add the boat to the end of the list
-    // Update the list’s size
+void freeMemory(ArrayList * list) {
+    free(list->array);
+    free(list);
+}
 
 // query() comments
     // Create and initialize the answer
@@ -157,7 +179,6 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
         // Determine the command type
             // ADD COMMAND
                 // Create a static boat
-                // TODO: left off here
                 // Read in the boat values (be careful with the direction)
                 // Convert the x and y to zero indexed values
                 // Initialize the delta x and y based on the direction
@@ -169,6 +190,7 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
             // TIME COMMAND
                 // Update the current time
             // STORM COMMAND
+                // TODO: left off here
                 // Read in the storm information
                 // Convert the x and y to zero indexed values
                 // Loop through and determine how many ships will be affected
