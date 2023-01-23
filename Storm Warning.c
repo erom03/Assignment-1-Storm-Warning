@@ -119,6 +119,7 @@ int main() {
     }
 
     free(columns);
+    free(rows);
 
     return 0;
 }
