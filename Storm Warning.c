@@ -115,7 +115,43 @@ int main() {
 
         // STORM COMMAND
         if(currCommand == 3) {
+            int stormX;
+            int stormY;
+            int stormWidth;
+            int stormHeight;
 
+            scanf("%d", &stormX);
+            scanf("%d", &stormY);
+            scanf("%d", &stormWidth);
+            scanf("%d", &stormHeight);
+
+            stormX -= 1;
+            stormY -= 1;
+
+            int should_print = 0;    // 0 = no, 1 = yes
+
+            int totalAffected = 0;
+            totalAffected += query(stormX, stormY, stormWidth, 
+                                    stormHeight, width, 
+                                    height, columns, 
+                                    currTime, should_print);
+
+            totalAffected += query(stormX, stormY, stormWidth, 
+                                    stormHeight, width, 
+                                    height, rows, 
+                                    currTime, should_print);
+
+            should_print = 1;
+
+            query(stormX, stormY, stormWidth, 
+                    stormHeight, width, 
+                    height, columns, 
+                    currTime, should_print);
+
+            query(stormX, stormY, stormWidth, 
+                    stormHeight, width, 
+                    height, rows, 
+                    currTime, should_print);
         }        
 
         scanf("%d", &currCommand);
@@ -151,6 +187,15 @@ void appendToList(ArrayList * list, Boat newBoat) {
 
 int query(int x, int y, int storm_width, int storm_height, int world_width, int world_height, ArrayList * list, int cur_time, int should_print) {
     int affectedShips = 0;
+    int currX, currY, shift;
+
+    for(int i = 0; i < list->size; i++) {
+        if(list->array[i].start_time < cur_time) {
+            shift = cur_time - list->array[i].start_time;
+            
+            
+        }
+    }
 
     return affectedShips;
 }
