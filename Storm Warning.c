@@ -187,13 +187,31 @@ void appendToList(ArrayList * list, Boat newBoat) {
 
 int query(int x, int y, int storm_width, int storm_height, int world_width, int world_height, ArrayList * list, int cur_time, int should_print) {
     int affectedShips = 0;
-    int currX, currY, shift;
+    int shift, newPos;
 
     for(int i = 0; i < list->size; i++) {
-        if(list->array[i].start_time < cur_time) {
-            shift = cur_time - list->array[i].start_time;
-            
-            
+        if(list->array[i].start_time < cur_time) {            
+            // Row check
+            if(list->array[i].delta_x != 0) {
+                //Check if the ship is in the same row as the storm
+                for(int j = 0; j < storm_height; j++) {
+                    if(list->array[i].start_y == storm_height + j) {
+                        // Get boats current location
+                        shift = (cur_time - list->array[i].start_time) * list->array[i].delta_x;
+                        newPos = (shift + list->array[i].start_x);
+                        // Wrap ship if needed
+                        if(newPos > world_width || newPos < 0)
+                             newPos %= world_width;
+
+                        
+                    }
+                }
+            }
+
+            // Column check
+            if(list->array[i].delta_y != 0) {
+
+            }
         }
     }
 
