@@ -201,8 +201,9 @@ void appendToList(ArrayList * list, Boat newBoat) {
 }
 
 int query(int x, int y, int storm_width, int storm_height, int world_width, int world_height, ArrayList * list, int cur_time, int should_print) {
-    int affectedShips = 0;
-    int shift, newPos;
+    int affectedShips = 0;          // Tracks affected ships
+    int shift, newPos, stormPos;    // Tracks ship and storm positions
+    int stormWrap = -1;             // Tracks if storm wraps
 
     for(int i = 0; i < list->size; i++) {
         if(list->array[i].start_time < cur_time) {            
@@ -214,11 +215,27 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
                         // Get boats current location
                         shift = (cur_time - list->array[i].start_time) * list->array[i].delta_x;
                         newPos = (shift + list->array[i].start_x);
+                        
                         // Wrap ship if needed
                         if(newPos > world_width || newPos < 0)
                              newPos %= world_width;
 
-                        
+                        // Get storm's furthest position
+                        stormPos = x + storm_width;
+
+                        // Check if storm wraps
+                        if(stormPos >= world_width)
+                            stormWrap = world_width - stormPos;
+
+                        // Check if boat is in storm
+                        if((newPos > x && newPos < stormPos) || newPos < stormWrap) {
+                            affectedShips++;
+                            
+                            // print ship if needed
+                            if(should_print == 1)
+                                printf("%s\n", list->array[i].name);
+                        }
+
                     }
                 }
             }
