@@ -20,7 +20,7 @@ struct ArrayList {
 // Given a point to a list initialize the list
 ArrayList * initArrayList();
 
-// Given a list and a boat tot add to it, add the boat to the end
+// Given a list and a boat to add to it, add the boat to the end
 // of the list
 // Expand the list if necessary
 void appendToList(ArrayList * list, Boat newBoat);
@@ -64,6 +64,7 @@ int main() {
 
         //ADD COMMAND
         if(currCommand == 1) {
+            // Create a static boat and read in values
             Boat newBoat;
             char direction;
 
@@ -72,11 +73,16 @@ int main() {
             scanf("%c", &direction);
             scanf("%c", newBoat.name);
 
+            // Zero index my values
             newBoat.start_x -= 1;
             newBoat.start_y -= 1;
 
+            // Set start time
             newBoat.start_time = currTime;
 
+            // Check direction the ships move and assign
+            // its change in x and y accordingly
+            // then append the new boat to the list
             switch (direction) {
                 case 'L':
                     newBoat.delta_x = -1;
@@ -109,12 +115,14 @@ int main() {
         if(currCommand == 2) {
             int addTime;
             
+            // get time to be added from user
             scanf("%d", &addTime);
             currTime += addTime;
         }
 
         // STORM COMMAND
         if(currCommand == 3) {
+            // read in storm values
             int stormX;
             int stormY;
             int stormWidth;
@@ -125,11 +133,13 @@ int main() {
             scanf("%d", &stormWidth);
             scanf("%d", &stormHeight);
 
+            // zero index the values
             stormX -= 1;
             stormY -= 1;
 
             int should_print = 0;    // 0 = no, 1 = yes
 
+            // gather how many ships will be affected from query command
             int totalAffected = 0;
             totalAffected += query(stormX, stormY, stormWidth, 
                                     stormHeight, width, 
@@ -141,8 +151,10 @@ int main() {
                                     height, rows, 
                                     currTime, should_print);
 
+            // set query function to print
             should_print = 1;
 
+            // print affected ships
             query(stormX, stormY, stormWidth, 
                     stormHeight, width, 
                     height, columns, 
@@ -154,9 +166,11 @@ int main() {
                     currTime, should_print);
         }        
 
+        // read next command
         scanf("%d", &currCommand);
     }
 
+    // free memory
     free(columns);
     free(rows);
 
@@ -166,6 +180,7 @@ int main() {
 ArrayList * initArrayList() {
     ArrayList * list = (ArrayList *)malloc(sizeof(ArrayList));
     
+    // set default values for the array list
     list->size = 0;
     list->capacity = DEFAULT_CAPACITY;
     list->array = (Boat *)malloc(sizeof(Boat) * list->capacity);
@@ -219,6 +234,8 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
 }
 
 void freeMemory(ArrayList * list) {
+    // first free the memory of the array within the array list
+    // then free the list itself
     free(list->array);
     free(list);
 }
