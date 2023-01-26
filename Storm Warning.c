@@ -55,6 +55,7 @@ int main() {
 
             scanf("%d", &newBoat.start_x);
             scanf("%d", &newBoat.start_y);
+            getchar();
             scanf("%c", &direction);
             scanf("%s", newBoat.name);
 
@@ -205,17 +206,20 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
     int shift, newPos, stormPos;    // Tracks ship and storm positions
     int stormWrap = -5;             // Tracks if storm wraps
 
-    printf("list size %d", list->size);
     for(int i = 0; i < list->size; i++) {
-        printf("boat %d start time: %d\n", i, list->array[i].start_time);
-        if(list->array[i].start_time <= cur_time) {   
-            printf("Found valid start time\n");     
+        if(list->array[i].start_time <= cur_time) {       
             // Row check
             if(list->array[i].delta_x != 0) {
-                printf("started row check\n");
-                //Check if the ship is in the same row as the storm
+                // Checks the rows of the storm
                 for(int j = 0; j < storm_height; j++) {
-                    if(list->array[i].start_y == storm_height + j) {
+                    // Check if storm wraps and adjust accordingly
+                    stormPos = y + j;
+                    if(stormPos >= world_height) {
+                        stormPos -= world_height;
+                    }
+
+                    // Checks if boat is in same row as array
+                    if(list->array[i].start_y == stormPos) {
                         // Get boats current location
                         shift = (cur_time - list->array[i].start_time) * list->array[i].delta_x;
                         newPos = (shift + list->array[i].start_x);
@@ -224,42 +228,40 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
                         if(newPos > world_width || newPos < 0)
                              newPos %= world_width;
 
-                        printf("Ships current location is: %d\n", newPos);
-
                         // Get storm's furthest position
-                        stormPos = x + storm_width;
+                        stormPos = x + storm_width - 1;
 
                         // Check if storm wraps
                         if(stormPos >= world_width) {
-                            stormWrap = stormPos - world_width - 1;
+                            stormWrap = stormPos - world_width;
                             stormPos = world_width - 1;
                         }
 
-                        printf("stormPos is: %d", stormPos);
-                        printf("stormWrap is: %d", stormWrap);
-
                         // Check if boat is in storm
-                        if((newPos > x && newPos < stormPos) || newPos < stormWrap) {
+                        if((newPos >= x && newPos <= stormPos) || newPos <= stormWrap) {
                             affectedShips++;
                             
                             // print ship if needed
                             if(should_print == 1)
                                 printf("%s\n", list->array[i].name);
 
-                            printf("Ship is in storm\n");
                         }
                     }
                 }
             }
 
-            printf("finished row check\n");
-
             // Column check
             if(list->array[i].delta_y != 0) {
-                printf("started column check\n");
-                //Check if the ship is in the same column as the storm
+                // Checks the columns of the storm
                 for(int j = 0; j < storm_width; j++) {
-                    if(list->array[i].start_x == storm_width + j) {
+                    // Check if storm wraps and adjust accordingly
+                    stormPos = x + j;
+                    if(stormPos >= world_width) {
+                        stormPos -= world_width;
+                    }
+
+                    // Checks if boat is in same column as array
+                    if(list->array[i].start_x == stormPos) {
                         // Get boats current location
                         shift = (cur_time - list->array[i].start_time) * list->array[i].delta_y;
                         newPos = (shift + list->array[i].start_y);
@@ -268,35 +270,28 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
                         if(newPos > world_height || newPos < 0)
                              newPos %= world_height;
 
-                        printf("Ships current location is: %d\n", newPos);
-
                         // Get storm's furthest position
-                        stormPos = y + storm_height;
+                        stormPos = y + storm_height - 1;
 
                         // Check if storm wraps
                         if(stormPos >= world_height) {
-                            stormWrap = stormPos - world_height - 1;
+                            stormWrap = stormPos - world_height;
                             stormPos = world_height - 1;
                         }
 
-                        printf("stormPos is: %d", stormPos);
-                        printf("stormWrap is: %d", stormWrap);
-
                         // Check if boat is in storm
-                        if((newPos > y && newPos < stormPos) || newPos < stormWrap) {
+                        if((newPos >= y && newPos <= stormPos) || newPos <= stormWrap) {
                             affectedShips++;
                             
                             // print ship if needed
                             if(should_print == 1)
                                 printf("%s\n", list->array[i].name);
-                            
-                            printf("Ship is in storm\n");
+
                         }
                     }
                 }
             }
 
-            printf("finished column check\n");
         }
     }
 
