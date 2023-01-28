@@ -204,7 +204,7 @@ void appendToList(ArrayList * list, Boat newBoat) {
 int query(int x, int y, int storm_width, int storm_height, int world_width, int world_height, ArrayList * list, int cur_time, int should_print) {
     int affectedShips = 0;          // Tracks affected ships
     int shift, newPos, stormPos;    // Tracks ship and storm positions
-    int stormWrap = -5;             // Tracks if storm wraps
+    int stormWrap = -1;             // Tracks if storm wraps
 
     for(int i = 0; i < list->size; i++) {
         if(list->array[i].start_time <= cur_time) {       
@@ -232,8 +232,9 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
                         stormPos = x + storm_width - 1;
 
                         // Check if storm wraps
+                        stormWrap = stormPos - world_width;
+
                         if(stormPos >= world_width) {
-                            stormWrap = stormPos - world_width;
                             stormPos = world_width - 1;
                         }
 
@@ -274,8 +275,9 @@ int query(int x, int y, int storm_width, int storm_height, int world_width, int 
                         stormPos = y + storm_height - 1;
 
                         // Check if storm wraps
+                        stormWrap = stormPos - world_height;
+
                         if(stormPos >= world_height) {
-                            stormWrap = stormPos - world_height;
                             stormPos = world_height - 1;
                         }
 
